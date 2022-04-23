@@ -20,17 +20,29 @@ rem() {
     cd /usr/"$1" && while read -r line; do rm -rfv "$line"; done < "/remove-$(echo "$1" | sed "s/32//g;s/64//g").txt" && cd /
 }
 
-get() {
-    curl -LSs  "https://codeload.github.com/$1/zip/$2" -o "$3".zip
+set_cmn() {
     unzip "$3".zip -d. && rm "$3".zip && mv -v "${1##*/}-$2" "/usr/${3}"
     find "/usr/${3}" -exec chmod +x {} \; && rem "$3"
 }
 
-get XSans02/Weeb-Clang main clang
-get mvaisakh/gcc-arm64 gcc-master gcc64
-get mvaisakh/gcc-arm gcc-master gcc32
+github() {
+    curl -LSs  "https://codeload.github.com/$1/zip/$2" -o "$3".zip
+    set_cmn "$1" "$2" "$3"
+}
 
-cd /usr/clang && rep 'Weeb' 'Zer0' && rep 'github.com/llvm/llvm-project' 'youtu.be/watch?v=dQw4w9WgXcQ' && cd /
+gitlab() {
+    curl -LSs  "https://gitlab.com/$1/-/archive/$2/${1##*/}-$2.zip" -o "$3".zip
+    set_cmn "$1" "$2" "$3"
+}
+
+gitlab ElectroPerf/atom-x-clang atom-15 clang
+github mvaisakh/gcc-arm64 gcc-master gcc64
+github mvaisakh/gcc-arm gcc-master gcc32
+/usr/gcc32/bin/*-gcc -v
+/usr/gcc64/bin/*-gcc -v
+/usr/clang/bin/clang -v
+
+cd /usr/clang && rep 'github.com/llvm/llvm-project' 'youtu.be/watch?v=dQw4w9WgXcQ' && cd /
 
 ln -sv /usr/clang/bin/llvm-* /usr/gcc64/bin
 ln -sv /usr/clang/bin/lld /usr/gcc64/bin
