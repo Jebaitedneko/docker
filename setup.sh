@@ -36,16 +36,7 @@ gitlab() {
 }
 
 gitlab ElectroPerf/atom-x-clang atom-15 clang
-github mvaisakh/gcc-arm64 gcc-master gcc64
-github mvaisakh/gcc-arm gcc-master gcc32
-/usr/gcc32/bin/*-gcc -v
-/usr/gcc64/bin/*-gcc -v
-/usr/clang/bin/clang -v
 
 cd /usr/clang && rep 'github.com/llvm/llvm-project' 'youtu.be/watch?v=dQw4w9WgXcQ' && cd /
-
-ln -sv /usr/clang/bin/llvm-* /usr/gcc64/bin
-ln -sv /usr/clang/bin/lld /usr/gcc64/bin
-ln -sv /usr/clang/bin/ld.lld /usr/gcc64/bin
 
 chmod +x strip.sh && /strip.sh / && rm -rfv strip.sh ./*.txt
