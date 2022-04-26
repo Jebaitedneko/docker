@@ -37,7 +37,7 @@ gitlab() {
 
 CURRENT_CLANG=$(curl https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+/refs/heads/master/ | grep -oE "clang-r[0-9a-f]+" | sort -u | tail -n1)
 echo -e "\n\nFETCHING $CURRENT_CLANG from AOSP...\n\n"
-curl -LSsO "https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/refs/heads/master/$CURRENT_CLANG.tar.gz"
+aria2c -q -j4 -x4 -s4 -k50M -c "https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/refs/heads/master/$CURRENT_CLANG.tar.gz"
 mkdir -p /usr/clang && tar -xf ./*.tar.gz -C /usr/clang && rm ./*.tar.gz && rem clang
 touch /usr/clang/bin/aarch64-linux-gnu-elfedit && chmod +x /usr/clang/bin/aarch64-linux-gnu-elfedit
 touch /usr/clang/bin/arm-linux-gnueabi-elfedit && chmod +x /usr/clang/bin/arm-linux-gnueabi-elfedit
