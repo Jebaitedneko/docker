@@ -16,7 +16,7 @@ rep() {
 }
 
 rem() {
-    cd /usr/"$1" && while read -r line; do rm -rfv "$line"; done < "/remove-$(echo "$1" | sed "s/32//g;s/64//g").txt" && cd /
+    cd /usr/"$1" && while read -r line; do rm -rfv $line; done < "/remove-$(echo "$1" | sed "s/32//g;s/64//g").txt" && cd /
 }
 
 set_cmn() {
@@ -34,13 +34,17 @@ gitlab() {
     set_cmn "$1" "$2" "$3"
 }
 
-CURRENT_CLANG=$(curl https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+/refs/heads/master/ | grep -oE "clang-r[0-9a-f]+" | sort -u | tail -n1)
-echo -e "\n\nFETCHING $CURRENT_CLANG from AOSP...\n\n"
-aria2c -q -j4 -x4 -s4 -k50M -c "https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/refs/heads/master/$CURRENT_CLANG.tar.gz"
-mkdir -p /usr/clang && tar -xf ./*.tar.gz -C /usr/clang && rm ./*.tar.gz && rem clang
-touch /usr/clang/bin/aarch64-linux-gnu-elfedit && chmod +x /usr/clang/bin/aarch64-linux-gnu-elfedit
-touch /usr/clang/bin/arm-linux-gnueabi-elfedit && chmod +x /usr/clang/bin/arm-linux-gnueabi-elfedit
+curl -LSs "$(curl -s "https://raw.githubusercontent.com/AliciaLab/alice-clang/main/Clang-main-link.txt")" -o clang.tar.gz
+mkdir -p /usr/clang && tar -xf clang.tar.gz -C /usr/clang && rm clang.tar.gz && rem clang
+github mvaisakh/gcc-arm64 gcc-master gcc64
+github mvaisakh/gcc-arm gcc-master gcc32
 
-cd /usr/clang && rep 'github.com/llvm/llvm-project' 'youtu.be/watch?v=dQw4w9WgXcQ' && cd /
+ln -sv /usr/clang/bin/llvm-* /usr/gcc64/bin
+ln -sv /usr/clang/bin/lld /usr/gcc64/bin
+ln -sv /usr/clang/bin/ld.lld /usr/gcc64/bin
+
+/usr/gcc32/bin/*-gcc -v
+/usr/gcc64/bin/*-gcc -v
+/usr/clang/bin/clang -v
 
 chmod +x strip.sh && /strip.sh / && rm -rfv strip.sh ./*.txt

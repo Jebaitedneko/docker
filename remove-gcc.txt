@@ -10,7 +10,7 @@ bin/aarch64-elf-c++filt
 bin/aarch64-elf-cpp
 bin/aarch64-elf-dwp
 bin/aarch64-elf-g++
-bin/aarch64-elf-gcc-12.0.1
+bin/aarch64-elf-gcc-1*
 bin/aarch64-elf-gcc-ranlib
 bin/aarch64-elf-gprof
 bin/aarch64-elf-ld.bfd
@@ -27,7 +27,7 @@ bin/arm-eabi-c++filt
 bin/arm-eabi-cpp
 bin/arm-eabi-dwp
 bin/arm-eabi-g++
-bin/arm-eabi-gcc-12.0.1
+bin/arm-eabi-gcc-1*
 bin/arm-eabi-gcc-ranlib
 bin/arm-eabi-gprof
 bin/arm-eabi-ld.bfd
@@ -64,8 +64,8 @@ bin/wasm-ld
 include
 lib/bfd-plugins
 lib/cmake
-libexec/gcc/aarch64-elf/12.0.1/cc1plus
-libexec/gcc/arm-eabi/12.0.1/cc1plus
+libexec/gcc/aarch64-elf/*/cc1plus
+libexec/gcc/arm-eabi/*/cc1plus
 lib/libaarch64-elf-sim.a
 lib/libarm-eabi-sim.a
 share
