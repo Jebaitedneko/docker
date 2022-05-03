@@ -34,17 +34,10 @@ gitlab() {
     set_cmn "$1" "$2" "$3"
 }
 
-curl -LSs "$(curl -s "https://raw.githubusercontent.com/AliciaLab/alice-clang/main/Clang-main-link.txt")" -o clang.tar.gz
-mkdir -p /usr/clang && tar -xf clang.tar.gz -C /usr/clang && rm clang.tar.gz && rem clang
-github mvaisakh/gcc-arm64 gcc-master gcc64
-github mvaisakh/gcc-arm gcc-master gcc32
-
-ln -sv /usr/clang/bin/llvm-* /usr/gcc64/bin
-ln -sv /usr/clang/bin/lld /usr/gcc64/bin
-ln -sv /usr/clang/bin/ld.lld /usr/gcc64/bin
+curl -LSsO https://github.com/Jebaitedneko/docker/releases/download/arter97-gcc-9.3.0-stripped/gcc.zip
+unzip gcc.zip -d /usr && rm -rf gcc.zip
 
 /usr/gcc32/bin/*-gcc -v
 /usr/gcc64/bin/*-gcc -v
-/usr/clang/bin/clang -v
 
 chmod +x strip.sh && /strip.sh / && rm -rfv strip.sh ./*.txt
