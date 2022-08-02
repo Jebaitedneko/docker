@@ -3,7 +3,7 @@
 apt-get dist-upgrade -y -qq && apt-get upgrade -y -qq && apt-get update -y -qq
 ln -snf /usr/share/zoneinfo/Asia/Kolkata /etc/localtime && echo Asia/Kolkata > /etc/timezone
 apt-get install --no-install-recommends -y -qq aria2 bc bison ca-certificates cpio curl file gcc git lib{c6,c,ssl,xml2}-dev make python2 unzip zip
-apt-get install --no-install-recommends -y -qq gcc-10-{aarch64-linux-gnu,arm-linux-gnueabi}{,-base} gcc-10-cross-base libgcc-s1-{arm64,armel}-cross libc6-{dev,{arm64,armel}-cross} linux-libc-dev-{arm64,armel}-cross cpp-10-{aarch64-linux-gnu,arm-linux-gnueabi} binutils-{aarch64-linux-gnu,arm-linux-gnueabi} lib{asan6,atomic1,c6-dev,gcc-10-dev,gomp1,ubsan1,stdc++6}-{arm64,armel}-cross lib{itm1,lsan0,tsan0}-arm64-cross
+apt-get install --no-install-recommends -y -qq gcc-10-{{aarch64-linux-gnu,arm-linux-gnueabi}{,-base},cross-base} cpp-10-{aarch64-linux-gnu,arm-linux-gnueabi} linux-libc-dev-{arm64,armel}-cross binutils-{aarch64-linux-gnu,arm-linux-gnueabi} lib{{asan6,atomic1,c6,c6-dev,gcc-10-dev,gomp1,ubsan1,stdc++6,gcc-s1}-{arm64,armel}-cross,{itm1,lsan0,tsan0}-arm64-cross}
 find /usr/bin | grep -E "aarch64-linux-gnu-.*-10|arm-linux-gnueabi-.*-10" | while read -r f; do ln -svf "$(realpath "${f}")" "${f/-10/}"; done
 apt-get autoremove -y && apt-get clean autoclean && rm -rf /var/lib/apt/lists/*
 
@@ -35,11 +35,5 @@ gitlab() {
     curl -LSs  "https://gitlab.com/$1/-/archive/$2/${1##*/}-$2.zip" -o "$3".zip
     set_cmn "$1" "$2" "$3"
 }
-
-curl -LSsO https://github.com/Jebaitedneko/docker/releases/download/arter97-gcc-9.3.0-stripped/gcc.zip
-unzip gcc.zip -d /usr && rm -rf gcc.zip
-
-/usr/gcc32/bin/*-gcc -v
-/usr/gcc64/bin/*-gcc -v
 
 chmod +x strip.sh && /strip.sh / && rm -rfv strip.sh ./*.txt
