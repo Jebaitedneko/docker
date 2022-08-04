@@ -3,7 +3,7 @@
 apt-get dist-upgrade -y -qq && apt-get upgrade -y -qq && apt-get update -y -qq
 ln -snf /usr/share/zoneinfo/Asia/Kolkata /etc/localtime && echo Asia/Kolkata > /etc/timezone
 apt-get install --no-install-recommends -y -qq aria2 bc bison ca-certificates cpio curl file gcc git lib{c6,c,ssl,xml2}-dev make python2 unzip zip
-apt-get install --no-install-recommends -y -qq flex fontconfig-config fonts-dejavu-core ucf lib{bsd0,c6-i386,fl-dev,fl2,fontconfig1,freetype6,gd3,jbig0,jpeg-turbo8,jpeg8,msgpackc2,png16-16,tiff5,webp6,x11-6,x11-data,xau6,xcb1,xdmcp6,xpm4}
+apt-get install --no-install-recommends -y -qq flex fontconfig-config fonts-dejavu-core ucf lib{bsd0,c6-i386,dw1,elf1,fl-dev,fl2,fontconfig1,freetype6,gd3,jbig0,jpeg-turbo8,jpeg8,msgpackc2,png16-16,tiff5,webp6,x11-6,x11-data,xau6,xcb1,xdmcp6,xpm4}
 apt-get install --no-install-recommends -y -qq gcc-10-{{aarch64-linux-gnu,arm-linux-gnueabi}{,-base},cross-base,multilib-arm-linux-gnueabi} cpp-10-{aarch64-linux-gnu,arm-linux-gnueabi} linux-libc-dev-{arm64,armel,armhf}-cross binutils-{aarch64-linux-gnu,arm-linux-gnueabi} lib{{asan6,atomic1,c6,c6-dev,gcc-10-dev,gomp1,ubsan1,stdc++6,gcc-s1}-{arm64,armel}-cross,{itm1,lsan0,tsan0}-arm64-cross} libc6{,-dev}-armhf{,-armel}-cross libhf{asan6,atomic1,gcc-10-dev,gcc-s1,gomp1,stdc++6,ubsan1}-armel-cross
 apt-get install --no-install-recommends -y -qq libarchive-tools
 chmod +x /patchelf
@@ -45,6 +45,12 @@ github mvaisakh/gcc-arm gcc-master gcc32
 mkdir -p glibc
 curl -L https://archlinux.org/packages/core/x86_64/glibc/download | bsdtar -C glibc -xf -
 curl -L https://archlinux.org/packages/core/x86_64/lib32-glibc/download | bsdtar -C glibc -xf -
+curl -LSsO http://ftp.us.debian.org/debian/pool/main/e/elfutils/libdebuginfod-common_0.187-1_all.deb
+dpkg -x libdebuginfod-common_0.187-1_all.deb /glibc
+curl -LSsO http://ftp.us.debian.org/debian/pool/main/e/elfutils/libdebuginfod1_0.187-1_amd64.deb
+dpkg -x libdebuginfod1_0.187-1_amd64.deb /glibc
+ln -svf /glibc/usr/lib/x86_64-linux-gnu/libdebuginfod.so.1 /glibc/usr/lib/libdebuginfod.so.1
+ln -svf /glibc/usr/lib/x86_64-linux-gnu/libdebuginfod-0.187.so /glibc/usr/lib/libdebuginfod-0.187.so
 ln -svf /glibc/usr/lib /glibc/usr/lib64
 # find . | while read -r f; do echo "FILE: ${f}" && /patchelf --print-interpreter --print-soname --print-rpath --print-needed "${f}"; done &> log
 # grep -vE "patchelf" log | sort -u | grep -v FILE &> info && cat info && rm log
