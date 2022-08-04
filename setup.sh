@@ -51,6 +51,11 @@ curl -LSsO http://ftp.us.debian.org/debian/pool/main/e/elfutils/libdebuginfod1_0
 dpkg -x libdebuginfod1_0.187-1_amd64.deb /glibc
 ln -svf /glibc/usr/lib/x86_64-linux-gnu/libdebuginfod.so.1 /glibc/usr/lib/libdebuginfod.so.1
 ln -svf /glibc/usr/lib/x86_64-linux-gnu/libdebuginfod-0.187.so /glibc/usr/lib/libdebuginfod-0.187.so
+curl -LSsO https://mirrors.edge.kernel.org/ubuntu/pool/main/g/gcc-12/libstdc++6_12.1.0-5ubuntu1_amd64.deb
+dpkg -x libstdc++6_12.1.0-5ubuntu1_amd64.deb /glibc
+ln -svf /glibc/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30 /glibc/usr/lib/libstdc++.so.6.0.30
+ln -svf /glibc/usr/lib/x86_64-linux-gnu/libstdc++.so.6 /glibc/usr/lib/libstdc++.so.6
+rm ./*.deb
 ln -svf /glibc/usr/lib /glibc/usr/lib64
 # find . | while read -r f; do echo "FILE: ${f}" && /patchelf --print-interpreter --print-soname --print-rpath --print-needed "${f}"; done &> log
 # grep -vE "patchelf" log | sort -u | grep -v FILE &> info && cat info && rm log
