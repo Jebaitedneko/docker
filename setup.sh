@@ -39,8 +39,8 @@ gitlab() {
     set_cmn "$1" "$2" "$3"
 }
 
-github mvaisakh/gcc-arm64 gcc-master gcc64
-github mvaisakh/gcc-arm gcc-master gcc32
+github cyberknight777/gcc-arm64 master gcc64
+github cyberknight777/gcc-arm master gcc32
 
 mkdir -p glibc
 curl -L https://archlinux.org/packages/core/x86_64/glibc/download | bsdtar -C glibc -xf -
